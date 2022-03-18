@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>717</width>
-    <height>440</height>
+    <width>675</width>
+    <height>578</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -186,43 +186,17 @@ QLineEdit {
          </widget>
         </item>
         <item row="2" column="0">
-         <widget class="QSvgWidget" name="labelQR">
+         <widget class="QSvgWidget" name="labelQR" native="true">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>200</height>
-           </size>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">border: 2px solid #C4C4C3;</string>
-          </property>
          </widget>
         </item>
         <item row="3" column="0">
          <layout class="QHBoxLayout" name="horizontalLayout">
-          <item>
-           <widget class="QToolButton" name="btnSaveBarcode">
-            <property name="icon">
-             <iconset resource="rc/rc.qrc">
-              <normaloff>:/pic/save.png</normaloff>:/pic/save.png</iconset>
-            </property>
-            <property name="iconSize">
-             <size>
-              <width>24</width>
-              <height>24</height>
-             </size>
-            </property>
-            <property name="shortcut">
-             <string>Ctrl+S</string>
-            </property>
-           </widget>
-          </item>
           <item>
            <spacer name="horizontalSpacer">
             <property name="orientation">
@@ -244,6 +218,9 @@ QLineEdit {
             <property name="icon">
              <iconset resource="rc/rc.qrc">
               <normaloff>:/pic/save.png</normaloff>:/pic/save.png</iconset>
+            </property>
+            <property name="shortcut">
+             <string>Ctrl+S</string>
             </property>
            </widget>
           </item>
@@ -309,10 +286,19 @@ QLineEdit {
  <customwidgets>
   <customwidget>
    <class>QSvgWidget</class>
-   <extends>QLabel</extends>
+   <extends>QWidget</extends>
    <header>qsvgwidget.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>ledPlainText</tabstop>
+  <tabstop>ledEncrypted</tabstop>
+  <tabstop>btnSave</tabstop>
+  <tabstop>tabWidgetEncryption</tabstop>
+  <tabstop>ledEncrypted2</tabstop>
+  <tabstop>ledPlainText2</tabstop>
+ </tabstops>
  <resources>
   <include location="rc/rc.qrc"/>
  </resources>

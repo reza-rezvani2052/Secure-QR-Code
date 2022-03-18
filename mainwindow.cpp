@@ -35,9 +35,13 @@ MainWindow::MainWindow(QWidget *parent)
     ba = QByteArray();
 
     ui->tabWidgetEncryption->setCurrentWidget(ui->tabEncrypt);
+    ui->ledEncrypted->setFocus();
+
     //...
+
     crypto = new SimpleCrypt(Q_UINT64_C(0x0c2ad4a4acb9f023)); //some random number
     //crypto->setCompressionMode(SimpleCrypt::CompressionAlways);
+
 }
 
 MainWindow::~MainWindow()
@@ -102,6 +106,22 @@ void MainWindow::on_btnSave_clicked()
    file.open(QIODevice::WriteOnly);
    file.write(ba.data());
    file.close();
+
+   //...
+
+   /*
+   //TODO: bug dareh:
+   QPixmap pixmap(ui->labelQR->size());
+   //ui->labelQR->render(&pixmap, QPoint(), QRegion(ui->labelQR->frameGeometry()));
+   ui->labelQR->render(&pixmap, QPoint());
+   //pixmap.save(QStandardPaths::writableLocation(QStandardPaths::DesktopLocation) + "/example.png");
+   ///pixmap.save(filePath + "-example.png");
+
+
+   ui->labelQR->grab().save(filePath + "-example.png");
+   */
+
+   //...
 
    //qDebug() << ba.data();
 }
