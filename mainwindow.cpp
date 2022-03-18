@@ -1,7 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-
 #include <QtDebug>
 
 #include <QSvgWidget>
@@ -85,6 +84,7 @@ void MainWindow::on_btnSave_clicked()
    if (ba.isEmpty()) {
        QMessageBox::warning(this, " ",
                                 "چیزی برای ذخیره کردن وجود ندارد!");
+       return;
    }
 
    //...
