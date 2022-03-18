@@ -1,12 +1,25 @@
 QT       += core widgets gui svg
 
-
 CONFIG += c++11
 
-# The following define makes your compiler emit warnings if you use
-# any Qt feature that has been marked deprecated (the exact warnings
-# depend on your compiler). Please consult the documentation of the
-# deprecated API in order to know how to port your code away from it.
+#-----------------------------------------------------------------------
+
+# qrcodegen code for Application Qt project
+qrcodegen_PARENTPATH=./third-party-libraries/QrCodeGen/
+qrcodegen_HEADERPATH=./third-party-libraries/QrCodeGen/header/  # current qrcodegen path is ./header/
+qrcodegen_SOURCEPATH=./third-party-libraries/QrCodeGen/source/  # current qrcodegen path is ./source/
+include(./third-party-libraries/QrCodeGen/qrcodegen.pri)
+
+#...
+
+# SimpleCrypt code for Application Qt project
+SimpleCrypt_PARENTPATH=./third-party-libraries/SimpleCrypt/
+SimpleCrypt_HEADERPATH=./third-party-libraries/SimpleCrypt/header/
+SimpleCrypt_SOURCEPATH=./third-party-libraries/SimpleCrypt/source/
+include(./third-party-libraries/SimpleCrypt/SimpleCrypt.pri)
+
+#-----------------------------------------------------------------------
+
 DEFINES += QT_DEPRECATED_WARNINGS
 
 # You can also make your code fail to compile if it uses deprecated APIs.
@@ -16,14 +29,10 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     main.cpp \
-    mainwindow.cpp \
-    qrcodegen.cpp \
-    simplecrypt.cpp
+    mainwindow.cpp
 
 HEADERS += \
-    mainwindow.h \
-    qrcodegen.h \
-    simplecrypt.h
+    mainwindow.h
 
 FORMS += \
     mainwindow.ui
