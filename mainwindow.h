@@ -55,8 +55,6 @@ private:
     QByteArray ba;
     SimpleCrypt *crypto;
 
-    QString m_desktopPath;
-
     bool saveMethod1(const QString &filePath);
     bool saveMethod2(const QString &filePath);
 
