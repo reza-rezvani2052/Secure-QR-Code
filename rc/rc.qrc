@@ -1,7 +1,16 @@
 <RCC>
-    <qresource prefix="/icon"/>
     <qresource prefix="/">
-        <file>pic/save.png</file>
-        <file>pic/app-icon.png</file>
+        <file>fonts/BYekan.ttf</file>
+        <file>fonts/iran_sans.ttf</file>
+        <file>fonts/yekan.ttf</file>
+        <file>gifs/loading_circle.gif</file>
+        <file>icons/app-icon-original.png</file>
+        <file>icons/app-icon.png</file>
+        <file>icons/help.png</file>
+        <file>icons/ok.png</file>
+        <file>icons/open.png</file>
+        <file>icons/print.png</file>
+        <file>icons/save.png</file>
+        <file>fonts/iran_sans_web.ttf</file>
     </qresource>
 </RCC>

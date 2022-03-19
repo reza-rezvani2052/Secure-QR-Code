@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="rc/rc.qrc">
-    <normaloff>:/pic/app-icon.png</normaloff>:/pic/app-icon.png</iconset>
+    <normaloff>:/icons/app-icon.png</normaloff>:/icons/app-icon.png</iconset>
   </property>
   <property name="layoutDirection">
    <enum>Qt::RightToLeft</enum>
@@ -217,7 +217,7 @@ QLineEdit {
             </property>
             <property name="icon">
              <iconset resource="rc/rc.qrc">
-              <normaloff>:/pic/save.png</normaloff>:/pic/save.png</iconset>
+              <normaloff>:/icons/save.png</normaloff>:/icons/save.png</iconset>
             </property>
             <property name="shortcut">
              <string>Ctrl+S</string>
