@@ -10,7 +10,7 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     a.setLayoutDirection(Qt::RightToLeft);
 
-    a.setOrganizationName("");
+    a.setOrganizationName("Rezvani");
     a.setApplicationName("Secure-QR-Code");
     a.setOrganizationDomain("http://www.google.com");
     a.setApplicationVersion("1.0.0");

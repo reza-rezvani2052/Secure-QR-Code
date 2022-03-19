@@ -12,5 +12,6 @@
         <file>icons/print.png</file>
         <file>icons/save.png</file>
         <file>fonts/iran_sans_web.ttf</file>
+        <file>icons/settings.png</file>
     </qresource>
 </RCC>

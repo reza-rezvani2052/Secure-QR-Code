@@ -168,24 +168,14 @@ QLineEdit {
         <string> رمزگذاری </string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_2">
-        <item row="0" column="0">
-         <widget class="QLineEdit" name="ledPlainText">
-          <property name="placeholderText">
-           <string>متنی که باید رمزگذاری شود</string>
-          </property>
-          <property name="clearButtonEnabled">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="0">
+        <item row="1" column="1">
          <widget class="QLineEdit" name="ledEncrypted">
           <property name="readOnly">
            <bool>true</bool>
           </property>
          </widget>
         </item>
-        <item row="2" column="0">
+        <item row="2" column="1">
          <widget class="QSvgWidget" name="labelQR" native="true">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
@@ -195,8 +185,82 @@ QLineEdit {
           </property>
          </widget>
         </item>
-        <item row="3" column="0">
+        <item row="3" column="1">
          <layout class="QHBoxLayout" name="horizontalLayout">
+          <item>
+           <widget class="QComboBox" name="comboBox_color">
+            <item>
+             <property name="text">
+              <string>Black (Default)</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Red</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Pink</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Purple</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Deep Purple</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Indigo</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Blue</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Cyan</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Teal</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Green</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Orange</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Deep Orange</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Brown</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Grey</string>
+             </property>
+            </item>
+           </widget>
+          </item>
           <item>
            <spacer name="horizontalSpacer">
             <property name="orientation">
@@ -225,6 +289,30 @@ QLineEdit {
            </widget>
           </item>
          </layout>
+        </item>
+        <item row="0" column="1">
+         <widget class="QLineEdit" name="ledPlainText">
+          <property name="placeholderText">
+           <string>متنی که باید رمزگذاری شود</string>
+          </property>
+          <property name="clearButtonEnabled">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="QToolButton" name="btnSettings">
+          <property name="icon">
+           <iconset resource="rc/rc.qrc">
+            <normaloff>:/icons/settings.png</normaloff>:/icons/settings.png</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>24</width>
+            <height>24</height>
+           </size>
+          </property>
+         </widget>
         </item>
        </layout>
       </widget>

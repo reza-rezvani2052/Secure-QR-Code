@@ -8,6 +8,8 @@
 #include <QFileDialog>
 #include <QStandardPaths>
 
+#include "formsetting.h"
+
 //...
 
 #include "simplecrypt.h"
@@ -61,7 +63,8 @@ void MainWindow::on_ledPlainText_textChanged(const QString &arg1)
 
    const QrCode qr = createQrCode(ui->ledEncrypted->text());
 
-   ba = QrCodeToSvgString(qr, 1).toLocal8Bit();
+   //TODO: range QR code **************
+   ba = QrCodeToSvgString(qr, 1, "magenta").toLocal8Bit();
    ui->labelQR->load(ba);
 
 
@@ -101,29 +104,37 @@ void MainWindow::on_btnSave_clicked()
    if (filePath.isEmpty()) //کاربر لغو کرده است
        return ;
 
-
-   QFile file(filePath);
-   file.open(QIODevice::WriteOnly);
-   file.write(ba.data());
-   file.close();
-
-   //...
-
-   /*
-   //TODO: bug dareh:
-   QPixmap pixmap(ui->labelQR->size());
-   //ui->labelQR->render(&pixmap, QPoint(), QRegion(ui->labelQR->frameGeometry()));
-   ui->labelQR->render(&pixmap, QPoint());
-   //pixmap.save(QStandardPaths::writableLocation(QStandardPaths::DesktopLocation) + "/example.png");
-   ///pixmap.save(filePath + "-example.png");
-
-
-   ui->labelQR->grab().save(filePath + "-example.png");
-   */
+   //NOTE: *****
+   saveMethod1(filePath);
+   //saveMethod2(filePath);
 
    //...
 
    //qDebug() << ba.data();
+}
+
+//TODO: rename function **
+bool MainWindow::saveMethod1(const QString &filePath)
+{
+    QFile file(filePath);
+    file.open(QIODevice::WriteOnly);
+    quint64 ret = file.write(ba.data());
+    file.close();
+    return (int)ret == -1 ? false : true ;
+}
+
+//FIXME: *****
+bool MainWindow::saveMethod2(const QString &filePath)
+{
+    //TODO: bug dareh:
+    QPixmap pixmap(ui->labelQR->size());
+    //ui->labelQR->render(&pixmap, QPoint(), QRegion(ui->labelQR->frameGeometry()));
+    ui->labelQR->render(&pixmap, QPoint());
+    //pixmap.save(QStandardPaths::writableLocation(QStandardPaths::DesktopLocation) + "/example.png");
+    ///pixmap.save(filePath + "-example.png");
+
+
+    ui->labelQR->grab().save(filePath + "-example.png");
 }
 
 const QrCode MainWindow::createQrCode(QString _text)
@@ -139,13 +150,12 @@ const QrCode MainWindow::createQrCode(QString _text)
 
 // Returns a string of SVG code for an image depicting the given QR Code, with the given number
 // of border modules. The string always uses Unix newlines (\n), regardless of the platform.
-QString MainWindow::QrCodeToSvgString(const QrCode &qr, int border)
+const QString MainWindow::QrCodeToSvgString(const QrCode &qr, int border, QColor color)
 {
     if (border < 0)
     {
         QMessageBox::warning(this, "خطا",
                              "حاشیه کناری کیوآر کد نباید عدد منفی باشد");
-        //throw std::domain_error("Border must be non-negative");
         return QString();
     }
 
@@ -153,34 +163,38 @@ QString MainWindow::QrCodeToSvgString(const QrCode &qr, int border)
     {
         QMessageBox::warning(this, "خطا",
                              "حاشیه کناری کیوآر کد خیلی بزرگ است");
-        //throw std::overflow_error("Border too large");
+        return QString();
     }
 
     //...
 
-    QStringList sb;
-    sb << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-    sb << "<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">\n";
-    sb << "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" viewBox=\"0 0 ";
-    sb << QString::number(qr.getSize() + border * 2)  << " "
+    QStringList sl;
+    sl << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+    sl << "<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">\n";
+    sl << "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" viewBox=\"0 0 ";
+    sl << QString::number(qr.getSize() + border * 2)  << " "
        << QString::number(qr.getSize() + border * 2)  << "\" stroke=\"none\">\n";
-    sb << "\t<rect width=\"100%\" height=\"100%\" fill=\"#FFFFFF\"/>\n";
-    sb << "\t<path d=\"";
+    sl << "\t<rect width=\"100%\" height=\"100%\" fill=\"#FFFFFF\"/>\n";
+    sl << "\t<path d=\"";
     for (int y = 0; y < qr.getSize(); y++) {
         for (int x = 0; x < qr.getSize(); x++) {
             if (qr.getModule(x, y)) {
                 if (x != 0 || y != 0)
-                    sb << " ";
-                sb << "M"
+                    sl << " ";
+                sl << "M"
                    << QString::number(x + border)
                    << "," << QString::number( y + border)
                    << "h1v1h-1z";
             }
         }
     }
-    sb << "\" fill=\"#000000\"/>\n";
-    sb << "</svg>\n";
-    return sb.join("");
+    //sl << "\" fill=\"#000000\"/>\n";
+    //sl << "\" fill=\"#" << "COLOR_CODE_GOES_HERE" << "\" stroke-width=\"0\"/>\n";
+    //sl << "\" fill=\"" << "COLOR_NAME_GOES_HERE" << "\" stroke-width=\"0\"/>\n";
+    sl << "\" fill=\"" << color.name() << "\" stroke-width=\"0\"/>\n";
+    sl << "</svg>\n";
+
+    return sl.join("");
 }
 
 /*
@@ -196,3 +210,12 @@ void MainWindow::printQr(const QrCode &qr)
     std::cout << std::endl;
 }
 */
+
+void MainWindow::on_btnSettings_clicked()
+{
+    FormSetting *dialog = new FormSetting(this);
+    QPoint xy = ui->btnSettings->mapToGlobal( QPoint(0,0) );
+    xy.setY( xy.y() - dialog->height() /*- 30*/ );
+    dialog->move(xy);
+    dialog->show();
+}
