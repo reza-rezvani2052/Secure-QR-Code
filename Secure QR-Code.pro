@@ -33,6 +33,7 @@ SOURCES += \
     mainwindow.cpp
 
 HEADERS += \
+    definitions.h \
     formsetting.h \
     mainwindow.h
 

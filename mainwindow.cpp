@@ -8,24 +8,15 @@
 #include <QFileDialog>
 #include <QStandardPaths>
 
+#include <QSettings>
+#include <QColorDialog>
+
 #include "formsetting.h"
 
 //...
 
-#include "simplecrypt.h"
-
-//...
-
-/*
-#include <cstdlib>
-#include <cstring>
-#include <iostream>
-#include <sstream>
-#include <string>
-#include <vector>
-*/
-
 #include "qrcodegen.h"
+#include "simplecrypt.h"
 
 //...
 
@@ -35,14 +26,28 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     ba = QByteArray();
+    ui->btnSave->setEnabled(false);
+
+    crypto = new SimpleCrypt(Q_UINT64_C(0x0c2ad4a4acb9f023)); //some random number
+    //crypto->setCompressionMode(SimpleCrypt::CompressionAlways);
+
+    m_desktopPath = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation);
+
+    //...
 
     ui->tabWidgetEncryption->setCurrentWidget(ui->tabEncrypt);
     ui->ledEncrypted->setFocus();
 
     //...
 
-    crypto = new SimpleCrypt(Q_UINT64_C(0x0c2ad4a4acb9f023)); //some random number
-    //crypto->setCompressionMode(SimpleCrypt::CompressionAlways);
+    //Default settings:
+    appSettings.QRCodeColor = DefaultSettings.QRCodeColor;
+    appSettings.QRCodeBorder = DefaultSettings.QRCodeBorder;
+
+    // اگر کاربر تغییراتی در تنظیمات داد؛ آن را اعمال میکنیم
+    readSettings();
+
+    //...
 
 }
 
@@ -56,19 +61,22 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_ledPlainText_textChanged(const QString &arg1)
 {
-    if (ui->ledPlainText->text().isEmpty())
-        ui->ledEncrypted->setText("");  //agar ledPlainText empty bashad, momken ast ledEncrypted empty nabashad!
-    else
+    if (ui->ledPlainText->text().trimmed().isEmpty()) {
+        ui->ledEncrypted->setText(QString());  //agar ledPlainText empty bashad, momken ast ledEncrypted empty nabashad!
+        ui->labelQR->load(QString());
+        ba = QByteArray();
+        ui->btnSave->setEnabled(false);
+        return ;
+    } else {
         ui->ledEncrypted->setText(crypto->encryptToString(arg1));
+        ui->btnSave->setEnabled(true);
+    }
 
    const QrCode qr = createQrCode(ui->ledEncrypted->text());
 
-   //TODO: range QR code **************
-   ba = QrCodeToSvgString(qr, 1, "magenta").toLocal8Bit();
+   ba = QrCodeToSvgString(qr, appSettings.QRCodeBorder,
+                          appSettings.QRCodeColor).toLocal8Bit();
    ui->labelQR->load(ba);
-
-
-   //printQr(qr);
 }
 
 void MainWindow::on_ledEncrypted2_textChanged(const QString &arg1)
@@ -104,7 +112,7 @@ void MainWindow::on_btnSave_clicked()
    if (filePath.isEmpty()) //کاربر لغو کرده است
        return ;
 
-   //NOTE: *****
+   //TODO: *****
    saveMethod1(filePath);
    //saveMethod2(filePath);
 
@@ -137,6 +145,11 @@ bool MainWindow::saveMethod2(const QString &filePath)
     ui->labelQR->grab().save(filePath + "-example.png");
 }
 
+void MainWindow::updateQrCode()
+{
+    on_ledPlainText_textChanged(ui->ledPlainText->text());
+}
+
 const QrCode MainWindow::createQrCode(QString _text)
 {
     const char *text = _text.toUtf8().constData();
@@ -145,7 +158,6 @@ const QrCode MainWindow::createQrCode(QString _text)
     return qr;
 
     //printQr(qr);
-    //std::cout << toSvgString(qr, 4) << std::endl;
 }
 
 // Returns a string of SVG code for an image depicting the given QR Code, with the given number
@@ -215,7 +227,47 @@ void MainWindow::on_btnSettings_clicked()
 {
     FormSetting *dialog = new FormSetting(this);
     QPoint xy = ui->btnSettings->mapToGlobal( QPoint(0,0) );
-    xy.setY( xy.y() - dialog->height() /*- 30*/ );
+    xy.setX( xy.x() - dialog->width() + ui->btnSettings->width() );
+    xy.setY( xy.y() - dialog->height() - 2 );
     dialog->move(xy);
     dialog->show();
 }
+
+void MainWindow::closeEvent(QCloseEvent *)
+{
+    writeSettings();
+}
+
+void MainWindow::readSettings()
+{
+    QSettings settings;
+    settings.beginGroup("MainWindow");
+    //...
+    restoreGeometry(settings.value("Geometry").toByteArray());
+
+    int borderSize = settings.value("QrCodeBorderSize",
+                                    DefaultSettings.QRCodeBorder).toInt() ;
+    if (borderSize >= 0 && borderSize <= 10)
+        appSettings.QRCodeBorder = borderSize;
+    else
+        appSettings.QRCodeBorder = DefaultSettings.QRCodeBorder;
+
+    QColor color = settings.value("QrCodeColor", DefaultSettings.QRCodeColor).value<QColor>();
+    appSettings.QRCodeColor = color;
+
+    //...
+    settings.endGroup();
+}
+
+void MainWindow::writeSettings()
+{
+    QSettings settings;
+    settings.beginGroup("MainWindow");
+    //...
+    settings.setValue("Geometry", saveGeometry());
+    settings.setValue("QrCodeBorderSize", appSettings.QRCodeBorder );
+    settings.setValue("QrCodeColor", appSettings.QRCodeColor);
+    //...
+    settings.endGroup();
+}
+

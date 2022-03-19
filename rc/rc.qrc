@@ -13,5 +13,7 @@
         <file>icons/save.png</file>
         <file>fonts/iran_sans_web.ttf</file>
         <file>icons/settings.png</file>
+        <file>icons/color-choice.png</file>
+        <file>icons/reset_to_default.png</file>
     </qresource>
 </RCC>
