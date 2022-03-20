@@ -23,7 +23,8 @@ class MainWindow : public QMainWindow
 public:
     struct AppSettings {
         int    QRCodeBorder;  // = 2;
-        QColor  QRCodeColor;  // = Qt::black;
+        int    QRCodeSize  ;  // = 150;
+        QColor QRCodeColor ;  // = Qt::black;
 
         // مقادیر پیش فرض در ساختار زیر تعریف شده اند تغییرات در این ساختار را در فایل
         // definitions
@@ -55,8 +56,8 @@ private:
     QByteArray ba;
     SimpleCrypt *crypto;
 
-    bool saveMethod1(const QString &filePath);
-    bool saveMethod2(const QString &filePath);
+    bool saveAsSVG(const QString &filePath);
+    bool saveAsPixmap(const QByteArray &contents, const QString &filePath);
 
     void readSettings();
     void writeSettings();

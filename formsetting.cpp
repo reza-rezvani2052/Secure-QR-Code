@@ -34,6 +34,8 @@ void FormSetting::loadAppSettings()
 {
     ui->spbBorderSize->setValue(mainWindow->appSettings.QRCodeBorder);
     //...
+    ui->spbQRCodeSize->setValue(mainWindow->appSettings.QRCodeSize);
+    //...
     QColor col = mainWindow->appSettings.QRCodeColor;
     if(col.isValid())
     {
@@ -71,10 +73,22 @@ void FormSetting::on_spbBorderSize_editingFinished()
     mainWindow->updateQrCode();
 }
 
+void FormSetting::on_spbQRCodeSize_editingFinished()
+{
+    const int QrCodeSize = ui->spbQRCodeSize->value();
+    mainWindow->appSettings.QRCodeSize = QrCodeSize;
+
+    // چون سایز در زمان ذخیره شدن اعمال میشود نیازی به این نیست
+    //loadAppSettings();
+
+    mainWindow->updateQrCode();
+}
+
 void FormSetting::on_btnResetToDefault_clicked()
 {
     mainWindow->appSettings.QRCodeBorder = DefaultSettings.QRCodeBorder;
-    mainWindow->appSettings.QRCodeColor = DefaultSettings.QRCodeColor;
+    mainWindow->appSettings.QRCodeSize   = DefaultSettings.QRCodeSize  ;
+    mainWindow->appSettings.QRCodeColor  = DefaultSettings.QRCodeColor ;
 
     loadAppSettings();
 

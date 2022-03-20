@@ -33,6 +33,7 @@ extern AppInformation AppInfo;
 
 struct AppDefaultSettings {
     const int     QRCodeBorder = 2;
+    const int     QRCodeSize   = 150;
     const QColor  QRCodeColor  = Qt::black;
 };
 extern AppDefaultSettings DefaultSettings;

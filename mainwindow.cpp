@@ -3,13 +3,14 @@
 
 #include <QtDebug>
 
+#include <QPainter>
+#include <QSettings>
 #include <QSvgWidget>
 #include <QMessageBox>
 #include <QFileDialog>
-#include <QStandardPaths>
-
-#include <QSettings>
 #include <QColorDialog>
+#include <QSvgRenderer>
+#include <QStandardPaths>
 
 #include "formsetting.h"
 
@@ -40,6 +41,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     //Default settings:
     appSettings.QRCodeColor = DefaultSettings.QRCodeColor;
+    appSettings.QRCodeSize = DefaultSettings.QRCodeSize;
     appSettings.QRCodeBorder = DefaultSettings.QRCodeBorder;
 
     // اگر کاربر تغییراتی در تنظیمات داد؛ آن را اعمال میکنیم
@@ -102,25 +104,29 @@ void MainWindow::on_btnSave_clicked()
 
    //...
 
+   QString filters("svg پرونده(*.svg);;عکس(*.png *.jpg)");
+   QString defaultFilter("عکس(*.png *.jpg)");
+
    QString filePath = QFileDialog::getSaveFileName(
-               this, "ذخیره کردن" ,
-               QStandardPaths::writableLocation(QStandardPaths::DesktopLocation),
-               " svg پرونده(*.svg);");
+                         this, "ذخیره کردن" ,
+                         QStandardPaths::writableLocation(QStandardPaths::DesktopLocation),
+                         filters, &defaultFilter);
 
    if (filePath.isEmpty()) //کاربر لغو کرده است
        return ;
 
-   //TODO: *****
-   saveMethod1(filePath);
-   //saveMethod2(filePath);
+   if (filePath.endsWith(".svg", Qt::CaseInsensitive))
+   {
+       saveAsSVG(filePath);
+   } else {
+       saveAsPixmap(ba, filePath);
+   }
 
    //...
-
    //qDebug() << ba.data();
 }
 
-//TODO: rename function **
-bool MainWindow::saveMethod1(const QString &filePath)
+bool MainWindow::saveAsSVG(const QString &filePath)
 {
     QFile file(filePath);
     file.open(QIODevice::WriteOnly);
@@ -129,18 +135,13 @@ bool MainWindow::saveMethod1(const QString &filePath)
     return (int)ret == -1 ? false : true ;
 }
 
-//FIXME: *****
-bool MainWindow::saveMethod2(const QString &filePath)
+bool MainWindow::saveAsPixmap(const QByteArray &contents, const QString &filePath)
 {
-    //TODO: bug dareh:
-    QPixmap pixmap(ui->labelQR->size());
-    //ui->labelQR->render(&pixmap, QPoint(), QRegion(ui->labelQR->frameGeometry()));
-    ui->labelQR->render(&pixmap, QPoint());
-    //pixmap.save(QStandardPaths::writableLocation(QStandardPaths::DesktopLocation) + "/example.png");
-    ///pixmap.save(filePath + "-example.png");
-
-
-    ui->labelQR->grab().save(filePath + "-example.png");
+    QSvgRenderer renderer(contents);
+    QPixmap pm( QSize(appSettings.QRCodeSize, appSettings.QRCodeSize ) );  // renderer.defaultSize()
+    QPainter painter(&pm);
+    renderer.render(&painter, pm.rect());  // renderer.render( &painter );
+    return pm.save(filePath);
 }
 
 void MainWindow::updateQrCode()
@@ -250,6 +251,13 @@ void MainWindow::readSettings()
     else
         appSettings.QRCodeBorder = DefaultSettings.QRCodeBorder;
 
+    int QrCodeSize = settings.value("QrCodeSize",
+                                    DefaultSettings.QRCodeSize).toInt() ;
+    if (QrCodeSize >= 25 && QrCodeSize <= 900)
+        appSettings.QRCodeSize = QrCodeSize;
+    else
+        appSettings.QRCodeSize = DefaultSettings.QRCodeSize;
+
     QColor color = settings.value("QrCodeColor", DefaultSettings.QRCodeColor).value<QColor>();
     appSettings.QRCodeColor = color;
 
@@ -264,6 +272,7 @@ void MainWindow::writeSettings()
     //...
     settings.setValue("Geometry", saveGeometry());
     settings.setValue("QrCodeBorderSize", appSettings.QRCodeBorder );
+    settings.setValue("QrCodeSize", appSettings.QRCodeSize );
     settings.setValue("QrCodeColor", appSettings.QRCodeColor);
     //...
     settings.endGroup();
