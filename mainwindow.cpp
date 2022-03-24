@@ -29,6 +29,7 @@ MainWindow::MainWindow(QWidget *parent)
     ba = QByteArray();
     ui->btnSave->setEnabled(false);
 
+    //TODO:** بعدا کلید رمزنگاری را از کاربر بگیرم
     crypto = new SimpleCrypt(Q_UINT64_C(0x0c2ad4a4acb9f023)); //some random number
     //crypto->setCompressionMode(SimpleCrypt::CompressionAlways);
 
@@ -66,7 +67,7 @@ void MainWindow::on_ledPlainText_textChanged(const QString &arg1)
     if (ui->ledPlainText->text().trimmed().isEmpty()) {
         ui->ledEncrypted->setText(QString());  //agar ledPlainText empty bashad, momken ast ledEncrypted empty nabashad!
 
-        //TODO: اگر کیوآر کدی نساخته باشیم و در فرم تنظیمات بر روی ریست کلیک کنیم
+        // اگر کیوآر کدی نساخته باشیم و در فرم تنظیمات بر روی ریست کلیک کنیم
         // در کنسول کیوت کریتور وارنینگ نمایش داده میشد. البته در عملکرد برنامه تاثیر ندارد
         // مجبور شدم یک فایل اس وی جی خالی را لود کنم
         //ui->labelQR->load(QString());
