@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Secure QR Code</string>
+   <string>کیوآر کد امن</string>
   </property>
   <property name="windowIcon">
    <iconset resource="rc/rc.qrc">
