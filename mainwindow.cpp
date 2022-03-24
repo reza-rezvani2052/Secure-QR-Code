@@ -43,6 +43,8 @@ MainWindow::MainWindow(QWidget *parent)
     appSettings.QRCodeColor = DefaultSettings.QRCodeColor;
     appSettings.QRCodeSize = DefaultSettings.QRCodeSize;
     appSettings.QRCodeBorder = DefaultSettings.QRCodeBorder;
+    appSettings.QRCodeSavePath = DefaultSettings.QRCodeSavePath;
+    appSettings.QRCodeFormatType = DefaultSettings.QRCodeFormatType;
 
     // اگر کاربر تغییراتی در تنظیمات داد؛ آن را اعمال میکنیم
     readSettings();
@@ -63,7 +65,7 @@ void MainWindow::on_ledPlainText_textChanged(const QString &arg1)
 {
     if (ui->ledPlainText->text().trimmed().isEmpty()) {
         ui->ledEncrypted->setText(QString());  //agar ledPlainText empty bashad, momken ast ledEncrypted empty nabashad!
-        ui->labelQR->load(QString());
+        //ui->labelQR->load(QString());
         ba = QByteArray();
         ui->btnSave->setEnabled(false);
         return ;
@@ -104,12 +106,25 @@ void MainWindow::on_btnSave_clicked()
 
    //...
 
+   // ممکن است کاربر آخرین مسیری که ذخیره کره است را حذف کرده باشد
+   QDir dir(appSettings.QRCodeSavePath);
+   if (!dir.exists())
+       appSettings.QRCodeSavePath = DefaultSettings.QRCodeSavePath; // Desktop path
+
+
+   QString defaultFilter;
+   if (appSettings.QRCodeFormatType == "png")
+       defaultFilter = "عکس(*.png *.jpg)";
+   else if (appSettings.QRCodeFormatType == "svg")
+       defaultFilter = "svg پرونده(*.svg)";
+   else
+       defaultFilter = QString(); // ! دکوری هست
+
+
    QString filters("svg پرونده(*.svg);;عکس(*.png *.jpg)");
-   QString defaultFilter("عکس(*.png *.jpg)");
 
    QString filePath = QFileDialog::getSaveFileName(
-                         this, "ذخیره کردن" ,
-                         QStandardPaths::writableLocation(QStandardPaths::DesktopLocation),
+                         this, "ذخیره کردن" , appSettings.QRCodeSavePath,
                          filters, &defaultFilter);
 
    if (filePath.isEmpty()) //کاربر لغو کرده است
@@ -118,9 +133,15 @@ void MainWindow::on_btnSave_clicked()
    if (filePath.endsWith(".svg", Qt::CaseInsensitive))
    {
        saveAsSVG(filePath);
+       appSettings.QRCodeFormatType = "svg";
    } else {
        saveAsPixmap(ba, filePath);
+       appSettings.QRCodeFormatType = "png";
    }
+
+
+   QFileInfo fileInfo( filePath );
+   appSettings.QRCodeSavePath = fileInfo.dir().path();
 
    //...
    //qDebug() << ba.data();
@@ -261,6 +282,11 @@ void MainWindow::readSettings()
     QColor color = settings.value("QrCodeColor", DefaultSettings.QRCodeColor).value<QColor>();
     appSettings.QRCodeColor = color;
 
+    appSettings.QRCodeSavePath = settings.value("QrCodeSavePath",
+                                    DefaultSettings.QRCodeSavePath).toString() ;
+
+    appSettings.QRCodeFormatType = settings.value("QrCodeFormatType",
+                                    DefaultSettings.QRCodeFormatType).toString() ;
     //...
     settings.endGroup();
 }
@@ -274,6 +300,8 @@ void MainWindow::writeSettings()
     settings.setValue("QrCodeBorderSize", appSettings.QRCodeBorder );
     settings.setValue("QrCodeSize", appSettings.QRCodeSize );
     settings.setValue("QrCodeColor", appSettings.QRCodeColor);
+    settings.setValue("QrCodeSavePath", appSettings.QRCodeSavePath);
+    settings.setValue("QrCodeFormatType", appSettings.QRCodeFormatType);
     //...
     settings.endGroup();
 }

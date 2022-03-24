@@ -22,9 +22,12 @@ class MainWindow : public QMainWindow
 
 public:
     struct AppSettings {
-        int    QRCodeBorder;  // = 2;
-        int    QRCodeSize  ;  // = 150;
-        QColor QRCodeColor ;  // = Qt::black;
+        int     QRCodeBorder;    // = 2;
+        int     QRCodeSize  ;    // = 150;
+        QColor  QRCodeColor ;    // = Qt::black;
+
+        QString QRCodeFormatType;  //png
+        QString QRCodeSavePath  ;  // Desktop
 
         // مقادیر پیش فرض در ساختار زیر تعریف شده اند تغییرات در این ساختار را در فایل
         // definitions
