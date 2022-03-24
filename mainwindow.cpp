@@ -65,7 +65,13 @@ void MainWindow::on_ledPlainText_textChanged(const QString &arg1)
 {
     if (ui->ledPlainText->text().trimmed().isEmpty()) {
         ui->ledEncrypted->setText(QString());  //agar ledPlainText empty bashad, momken ast ledEncrypted empty nabashad!
-        ui->labelQR->load(QString());
+
+        //TODO: اگر کیوآر کدی نساخته باشیم و در فرم تنظیمات بر روی ریست کلیک کنیم
+        // در کنسول کیوت کریتور وارنینگ نمایش داده میشد. البته در عملکرد برنامه تاثیر ندارد
+        // مجبور شدم یک فایل اس وی جی خالی را لود کنم
+        //ui->labelQR->load(QString());
+        ui->labelQR->load(QString(":/empty.svg"));
+
         ba = QByteArray();
         ui->btnSave->setEnabled(false);
         return ;
