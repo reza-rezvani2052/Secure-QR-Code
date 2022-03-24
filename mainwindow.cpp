@@ -65,7 +65,7 @@ void MainWindow::on_ledPlainText_textChanged(const QString &arg1)
 {
     if (ui->ledPlainText->text().trimmed().isEmpty()) {
         ui->ledEncrypted->setText(QString());  //agar ledPlainText empty bashad, momken ast ledEncrypted empty nabashad!
-        //ui->labelQR->load(QString());
+        ui->labelQR->load(QString());
         ba = QByteArray();
         ui->btnSave->setEnabled(false);
         return ;
