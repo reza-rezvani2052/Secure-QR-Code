@@ -20,7 +20,7 @@
    <item row="0" column="0">
     <widget class="QLabel" name="label">
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;عددی بین 10,000,001 و 999,999.999&lt;/p&gt;&lt;p align=&quot;right&quot;&gt;اکیدا توصیه می‌شود که از کلید فعلی و کلید قبلی پشتیبان بگیرید&lt;/p&gt;&lt;p align=&quot;right&quot;&gt;&lt;span style=&quot; font-weight:600; color:#ff0000;&quot;&gt;در صورت فراموشی و از دست رفتن کلید، اطلاعات شما به هیچ عنوان قابل بازیابی نیست&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;عددی بین 10,000,001 و 999,999.999 را در کادر زیر وارد کنید&lt;/p&gt;&lt;p align=&quot;right&quot;&gt;اکیدا توصیه می‌شود که از کلید فعلی و کلید قبلی پشتیبان بگیرید&lt;/p&gt;&lt;p align=&quot;right&quot;&gt;&lt;span style=&quot; font-weight:600; color:#ff0000;&quot;&gt;در صورت فراموشی و از دست رفتن کلید، اطلاعات شما به هیچ عنوان قابل بازیابی نیست&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
    </item>
@@ -52,6 +52,9 @@
        </property>
        <property name="maximum">
         <number>999999999</number>
+       </property>
+       <property name="singleStep">
+        <number>10000</number>
        </property>
       </widget>
      </item>
