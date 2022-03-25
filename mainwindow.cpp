@@ -2,7 +2,7 @@
 #include "ui_mainwindow.h"
 
 #include <QtDebug>
-
+#include <QDateTime>
 #include <QPainter>
 #include <QSettings>
 #include <QSvgWidget>
@@ -175,9 +175,14 @@ void MainWindow::on_btnSave_clicked()
 
    QString filters("svg پرونده(*.svg);;عکس(*.png *.jpg)");
 
+   QString strTime = QTime::currentTime().toString();
+   strTime.replace(":", "-");
+
+   QString strDate = QDate::currentDate().toString();
+
    QString filePath = QFileDialog::getSaveFileName(
-                         this, "ذخیره کردن" , appSettings.QRCodeSavePath,
-                         filters, &defaultFilter);
+               this, "ذخیره کردن" , appSettings.QRCodeSavePath + "/" +
+               strTime + " _ " + strDate , filters, &defaultFilter);
 
    if (filePath.isEmpty()) //کاربر لغو کرده است
        return ;
