@@ -23,9 +23,6 @@ FormSetting::FormSetting(QWidget *parent) :
     loadAppSettings();
     //...
 
-    // برای حذف تاخیر نمایش تول تیپ
-    ui->btnHelpKey->setStyle(new MyProxyStyle(ui->btnHelpKey->style()));
-
     adjustSize();
 }
 
