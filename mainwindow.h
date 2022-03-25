@@ -26,8 +26,10 @@ public:
         int     QRCodeSize  ;    // = 150;
         QColor  QRCodeColor ;    // = Qt::black;
 
-        QString QRCodeFormatType;  //png
-        QString QRCodeSavePath  ;  // Desktop
+        QString QRCodeFormatType;  // = png
+        QString QRCodeSavePath  ;  // = Desktop
+
+        uint QRCodeKey      ;      // = 10,000,000
 
         // مقادیر پیش فرض در ساختار زیر تعریف شده اند تغییرات در این ساختار را در فایل
         // definitions
@@ -44,12 +46,17 @@ public:
     // از فرم تنظیمات وقتی کاربر تغییراتی اعمال میکند فراخوانی میشود
     void updateQrCode();
 
+    void readSettings();
+    void writeSettings();
+
+    // از جاهای دیگر هم فراخوانی میشود
+    void createSimpleCrypt();
+
 private slots:
     void on_ledPlainText_textChanged(const QString &arg1);
     void on_ledEncrypted2_textChanged(const QString &arg1);
 
     void on_btnSave_clicked();
-
     void on_btnSettings_clicked();
 
 protected:
@@ -62,8 +69,6 @@ private:
     bool saveAsSVG(const QString &filePath);
     bool saveAsPixmap(const QByteArray &contents, const QString &filePath);
 
-    void readSettings();
-    void writeSettings();
     //...
 
     const QrCode createQrCode(QString _text);

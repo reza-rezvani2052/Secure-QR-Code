@@ -21,6 +21,7 @@ public:
 
 private slots:
     void on_btnResetToDefault_clicked();
+    void on_btnChangeKey_clicked();
     void on_btnQRCodeColorChoice_clicked();
     void on_spbBorderSize_editingFinished();
     void on_spbQRCodeSize_editingFinished();
