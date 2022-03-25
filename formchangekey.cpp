@@ -1,12 +1,14 @@
 #include "formchangekey.h"
 #include "ui_formchangekey.h"
 
+#include "definitions.h"
+
 FormChangeKey::FormChangeKey(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::FormChangeKey)
 {
     ui->setupUi(this);
-    ui->spinBox->value();
+    setKeyValue(appSettings.QRCodeKey);
 }
 
 FormChangeKey::~FormChangeKey()
@@ -16,13 +18,13 @@ FormChangeKey::~FormChangeKey()
 
 int FormChangeKey::getKeyValue()
 {
-    return ui->spinBox->value();
+    return ui->spbKey->value();
 }
 
 void FormChangeKey::setKeyValue(const int value)
 {
     //TODO: بعدا صحت و محدودیت ورودی ها را تست کنم
-    ui->spinBox->setValue(value);
+    ui->spbKey->setValue(value);
 }
 
 void FormChangeKey::on_btnOk_clicked()

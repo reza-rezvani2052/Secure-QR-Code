@@ -35,13 +35,13 @@ FormSetting::~FormSetting()
 
 void FormSetting::loadAppSettings()
 {
-    ui->spbBorderSize->setValue(mainWindow->appSettings.QRCodeBorder);
+    ui->spbBorderSize->setValue(appSettings.QRCodeBorder);
     //...
-    ui->spbKey->setValue(mainWindow->appSettings.QRCodeKey);
+    ui->spbKey->setValue(appSettings.QRCodeKey);
     //...
-    ui->spbQRCodeSize->setValue(mainWindow->appSettings.QRCodeSize);
+    ui->spbQRCodeSize->setValue(appSettings.QRCodeSize);
     //...
-    QColor col = mainWindow->appSettings.QRCodeColor;
+    QColor col = appSettings.QRCodeColor;
     if(col.isValid())
     {
        QString qss = QString("background-color: %1").arg(col.name());
@@ -56,11 +56,11 @@ void FormSetting::on_btnQRCodeColorChoice_clicked()
     colorDialog.setWindowTitle("انتخاب رنگ");
     colorDialog.setLayoutDirection(Qt::LeftToRight);
 
-    QColor color = mainWindow->appSettings.QRCodeColor;
+    QColor color = appSettings.QRCodeColor;
     colorDialog.setCurrentColor(color);
 
     if ( colorDialog.exec() == QDialog::Accepted ) {
-        mainWindow->appSettings.QRCodeColor = colorDialog.currentColor(); //.name();
+        appSettings.QRCodeColor = colorDialog.currentColor(); //.name();
 
         loadAppSettings();
 
@@ -71,7 +71,7 @@ void FormSetting::on_btnQRCodeColorChoice_clicked()
 void FormSetting::on_spbBorderSize_editingFinished()
 {
     const int borderSize = ui->spbBorderSize->value();
-    mainWindow->appSettings.QRCodeBorder = borderSize;
+    appSettings.QRCodeBorder = borderSize;
 
     loadAppSettings();
 
@@ -81,7 +81,7 @@ void FormSetting::on_spbBorderSize_editingFinished()
 void FormSetting::on_spbQRCodeSize_editingFinished()
 {
     const int QrCodeSize = ui->spbQRCodeSize->value();
-    mainWindow->appSettings.QRCodeSize = QrCodeSize;
+    appSettings.QRCodeSize = QrCodeSize;
 
     // چون سایز در زمان ذخیره شدن اعمال میشود نیازی به این نیست
     //loadAppSettings();
@@ -91,9 +91,9 @@ void FormSetting::on_spbQRCodeSize_editingFinished()
 
 void FormSetting::on_btnResetToDefault_clicked()
 {
-    mainWindow->appSettings.QRCodeBorder = DefaultSettings.QRCodeBorder;
-    mainWindow->appSettings.QRCodeSize   = DefaultSettings.QRCodeSize  ;
-    mainWindow->appSettings.QRCodeColor  = DefaultSettings.QRCodeColor ;
+    appSettings.QRCodeBorder = DefaultSettings.QRCodeBorder;
+    appSettings.QRCodeSize   = DefaultSettings.QRCodeSize  ;
+    appSettings.QRCodeColor  = DefaultSettings.QRCodeColor ;
 
     loadAppSettings();
 
@@ -105,7 +105,7 @@ void FormSetting::on_btnChangeKey_clicked()
     FormChangeKey form(mainWindow);
     if (form.exec() == QDialog::Accepted)
     {
-        mainWindow->appSettings.QRCodeKey = form.getKeyValue();
+        appSettings.QRCodeKey = form.getKeyValue();
         mainWindow->createSimpleCrypt();
 
         mainWindow->writeSettings(); // save appSettings.QRCodeKey

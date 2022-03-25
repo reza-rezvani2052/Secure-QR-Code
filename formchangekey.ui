@@ -43,7 +43,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="QSpinBox" name="spinBox">
+      <widget class="QSpinBox" name="spbKey">
        <property name="showGroupSeparator" stdset="0">
         <bool>true</bool>
        </property>

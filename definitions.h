@@ -25,7 +25,7 @@ extern CompanyInformation CompanyInfo;
 
 struct AppInformation
 {
-    const QString ApplicationName    = "Secure-QR-Code";
+    const QString ApplicationName    = "کیوآر کد امن";
     const QString ApplicationVersion = "1.0.0";
     const QString SupportMail        = "reza.rezvani2052@gmail.com";
 };
@@ -44,6 +44,23 @@ struct AppDefaultSettings {
     const uint QRCodeKey       = 10000000;      // = 10,000,000
 };
 extern AppDefaultSettings DefaultSettings;
+
+struct AppSettings {
+    int     QRCodeBorder;    // = 2;
+    int     QRCodeSize  ;    // = 150;
+    QColor  QRCodeColor ;    // = Qt::black;
+
+    QString QRCodeFormatType;  // = png
+    QString QRCodeSavePath  ;  // = Desktop
+
+    uint QRCodeKey      ;      // = 10,000,000
+
+    // مقادیر پیش فرض در ساختار زیر تعریف شده اند تغییرات در این ساختار را در فایل
+    // definitions
+    // اعمال نمایم
+    //AppDefaultSettings DefaultSettings;
+};
+extern AppSettings appSettings;
 
 //=================================================================================
 

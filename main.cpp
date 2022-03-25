@@ -8,6 +8,8 @@
 
 AppInformation     AppInfo;
 CompanyInformation CompanyInfo;
+
+AppSettings appSettings;
 AppDefaultSettings DefaultSettings;
 
 

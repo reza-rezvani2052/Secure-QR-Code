@@ -21,25 +21,6 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    struct AppSettings {
-        int     QRCodeBorder;    // = 2;
-        int     QRCodeSize  ;    // = 150;
-        QColor  QRCodeColor ;    // = Qt::black;
-
-        QString QRCodeFormatType;  // = png
-        QString QRCodeSavePath  ;  // = Desktop
-
-        uint QRCodeKey      ;      // = 10,000,000
-
-        // مقادیر پیش فرض در ساختار زیر تعریف شده اند تغییرات در این ساختار را در فایل
-        // definitions
-        // اعمال نمایم
-        //AppDefaultSettings DefaultSettings;
-    } appSettings;
-
-    // چون در دیالوگ ستینگز به این نیاز داشتیم، عمومی تعریف کردم
-    Ui::MainWindow *ui;
-
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
@@ -63,6 +44,8 @@ protected:
     void closeEvent(QCloseEvent *);
 
 private:
+    Ui::MainWindow *ui;
+
     QByteArray ba;
     SimpleCrypt *crypto;
 
