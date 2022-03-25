@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>162</width>
-    <height>223</height>
+    <width>199</width>
+    <height>300</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -44,7 +44,7 @@ background: QLinearGradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #eef, stop: 1 #c
      <property name="frameShadow">
       <enum>QFrame::Raised</enum>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout">
+     <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_4">
         <item>
@@ -65,6 +65,55 @@ background: QLinearGradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #eef, stop: 1 #c
           </property>
           <property name="autoRaise">
            <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="Line" name="line3_2">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <item>
+           <widget class="QLabel" name="label_6">
+            <property name="text">
+             <string>کلید رمز نگاری</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="btnHelpKey">
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;عددی بین 10.000.000 و 999.999.999&lt;/p&gt;&lt;p align=&quot;right&quot;&gt;اکیدا توصیه می‌شود که از کلید فعلی و کلید قبلی پشتیبان بگیرید&lt;/p&gt;&lt;p align=&quot;right&quot;&gt;&lt;span style=&quot; font-weight:600; color:#ff0000;&quot;&gt;در صورت فراموشی و از دست رفتن کلید، اطلاعات شما به هیچ عنوان قابل بازیابی نیست&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="icon">
+             <iconset resource="rc/rc.qrc">
+              <normaloff>:/icons/help.png</normaloff>:/icons/help.png</iconset>
+            </property>
+            <property name="autoRaise">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QSpinBox" name="spinBox">
+          <property name="showGroupSeparator" stdset="0">
+           <bool>true</bool>
+          </property>
+          <property name="minimum">
+           <number>10000000</number>
+          </property>
+          <property name="maximum">
+           <number>999999999</number>
           </property>
          </widget>
         </item>
@@ -108,7 +157,7 @@ background: QLinearGradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #eef, stop: 1 #c
        </layout>
       </item>
       <item>
-       <widget class="Line" name="lineFrameRadius_2">
+       <widget class="Line" name="line2">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
@@ -145,7 +194,7 @@ background: QLinearGradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #eef, stop: 1 #c
        </layout>
       </item>
       <item>
-       <widget class="Line" name="lineFrameRadius">
+       <widget class="Line" name="line1">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>

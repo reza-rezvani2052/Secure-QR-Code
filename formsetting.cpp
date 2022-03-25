@@ -4,6 +4,7 @@
 #include <QColorDialog>
 
 #include "mainwindow.h"
+#include "definitions.h"
 
 FormSetting::FormSetting(QWidget *parent) :
     QWidget(parent),
@@ -21,6 +22,10 @@ FormSetting::FormSetting(QWidget *parent) :
     //...
     loadAppSettings();
     //...
+
+    // برای حذف تاخیر نمایش تول تیپ
+    ui->btnHelpKey->setStyle(new MyProxyStyle(ui->btnHelpKey->style()));
+
     adjustSize();
 }
 
