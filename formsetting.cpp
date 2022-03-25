@@ -5,6 +5,7 @@
 
 #include "mainwindow.h"
 #include "definitions.h"
+#include "formchangekey.h"
 
 FormSetting::FormSetting(QWidget *parent) :
     QWidget(parent),
@@ -35,6 +36,8 @@ FormSetting::~FormSetting()
 void FormSetting::loadAppSettings()
 {
     ui->spbBorderSize->setValue(mainWindow->appSettings.QRCodeBorder);
+    //...
+    ui->spbKey->setValue(mainWindow->appSettings.QRCodeKey);
     //...
     ui->spbQRCodeSize->setValue(mainWindow->appSettings.QRCodeSize);
     //...
@@ -95,4 +98,17 @@ void FormSetting::on_btnResetToDefault_clicked()
     loadAppSettings();
 
     mainWindow->updateQrCode();
+}
+
+void FormSetting::on_btnChangeKey_clicked()
+{
+    FormChangeKey form(mainWindow);
+    if (form.exec() == QDialog::Accepted)
+    {
+        mainWindow->appSettings.QRCodeKey = form.getKeyValue();
+        mainWindow->createSimpleCrypt();
+
+        mainWindow->writeSettings(); // save appSettings.QRCodeKey
+        mainWindow->updateQrCode();
+    }
 }

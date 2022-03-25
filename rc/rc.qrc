@@ -16,5 +16,6 @@
         <file>icons/color-choice.png</file>
         <file>icons/reset_to_default.png</file>
         <file>empty.svg</file>
+        <file>icons/change_key.png</file>
     </qresource>
 </RCC>

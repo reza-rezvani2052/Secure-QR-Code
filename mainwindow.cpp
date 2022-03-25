@@ -13,6 +13,7 @@
 #include <QStandardPaths>
 
 #include "formsetting.h"
+#include "formchangekey.h"
 
 //...
 
@@ -29,10 +30,6 @@ MainWindow::MainWindow(QWidget *parent)
     ba = QByteArray();
     ui->btnSave->setEnabled(false);
 
-    //TODO:** بعدا کلید رمزنگاری را از کاربر بگیرم
-    crypto = new SimpleCrypt(Q_UINT64_C(0x0c2ad4a4acb9f023)); //some random number
-    //crypto->setCompressionMode(SimpleCrypt::CompressionAlways);
-
     //...
 
     ui->tabWidgetEncryption->setCurrentWidget(ui->tabEncrypt);
@@ -44,11 +41,47 @@ MainWindow::MainWindow(QWidget *parent)
     appSettings.QRCodeColor = DefaultSettings.QRCodeColor;
     appSettings.QRCodeSize = DefaultSettings.QRCodeSize;
     appSettings.QRCodeBorder = DefaultSettings.QRCodeBorder;
+
     appSettings.QRCodeSavePath = DefaultSettings.QRCodeSavePath;
     appSettings.QRCodeFormatType = DefaultSettings.QRCodeFormatType;
 
-    // اگر کاربر تغییراتی در تنظیمات داد؛ آن را اعمال میکنیم
+    appSettings.QRCodeKey = DefaultSettings.QRCodeKey;
+
+    //...
+
+    // اگر کاربر تغییراتی در تنظیمات داده بود؛ آن را اعمال میکنیم
     readSettings();
+
+
+    crypto = nullptr;
+    //crypto->setCompressionMode(SimpleCrypt::CompressionAlways);
+
+    if (appSettings.QRCodeKey > 10000000 && appSettings.QRCodeKey <= 999999999)
+    {
+        //crypto = new SimpleCrypt(Q_UINT64_C(0x0c2ad4a4acb9f023)); //some random number
+        crypto = new SimpleCrypt(appSettings.QRCodeKey);
+    }
+    //else if (appSettings.QRCodeKey == 10000000 )
+    else
+    {
+        this->show();
+
+        FormChangeKey form(this);
+        if (form.exec() == QDialog::Accepted)
+        {
+            appSettings.QRCodeKey = form.getKeyValue();
+            createSimpleCrypt();
+
+            writeSettings(); // save appSettings.QRCodeKey
+        }
+        else
+        {
+            this->close();
+            qApp->quit();
+            //delete this;
+            exit(0);
+        }
+    }
 
     //...
 
@@ -56,8 +89,20 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
-    delete crypto;
+    if (crypto != nullptr)
+        delete crypto;
+
     delete ui;
+}
+
+//...
+
+void MainWindow::createSimpleCrypt()
+{
+    if (crypto != nullptr)
+        delete  crypto;
+
+    crypto = new SimpleCrypt(appSettings.QRCodeKey);
 }
 
 //...
@@ -294,6 +339,10 @@ void MainWindow::readSettings()
 
     appSettings.QRCodeFormatType = settings.value("QrCodeFormatType",
                                     DefaultSettings.QRCodeFormatType).toString() ;
+
+    appSettings.QRCodeKey = settings.value("QrCodeKey",
+                                    DefaultSettings.QRCodeKey).toUInt() ;
+
     //...
     settings.endGroup();
 }
@@ -309,7 +358,7 @@ void MainWindow::writeSettings()
     settings.setValue("QrCodeColor", appSettings.QRCodeColor);
     settings.setValue("QrCodeSavePath", appSettings.QRCodeSavePath);
     settings.setValue("QrCodeFormatType", appSettings.QRCodeFormatType);
+    settings.setValue("QrCodeKey", appSettings.QRCodeKey);
     //...
     settings.endGroup();
 }
-

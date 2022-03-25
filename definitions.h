@@ -40,6 +40,8 @@ struct AppDefaultSettings {
 
     const QString QRCodeFormatType = "png";
     const QString QRCodeSavePath = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation);
+
+    const uint QRCodeKey       = 10000000;      // = 10,000,000
 };
 extern AppDefaultSettings DefaultSettings;
 
