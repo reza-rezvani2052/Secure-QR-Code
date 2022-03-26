@@ -2,6 +2,7 @@
 
 #include <QApplication>
 #include <QFontDatabase>
+#include <QSystemTrayIcon>
 
 #include "definitions.h"
 
@@ -17,6 +18,8 @@ int main(int argc, char *argv[])
 {
     Q_INIT_RESOURCE(rc);
 
+    QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
+
     QApplication a(argc, argv);
     a.setLayoutDirection(Qt::RightToLeft);
 
@@ -24,6 +27,11 @@ int main(int argc, char *argv[])
     a.setApplicationName(AppInfo.ApplicationName);
     a.setOrganizationDomain(CompanyInfo.OrganizationDomain);
     a.setApplicationVersion(AppInfo.ApplicationVersion);
+
+    appSettings.isSystemTrayAvailable =
+            QSystemTrayIcon::isSystemTrayAvailable() ? true : false;
+
+    QApplication::setQuitOnLastWindowClosed(false);
 
 
     int id = QFontDatabase::addApplicationFont(":/fonts/iran_sans_web.ttf");

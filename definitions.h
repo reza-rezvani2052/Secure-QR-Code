@@ -55,6 +55,8 @@ struct AppSettings {
 
     uint QRCodeKey      ;      // = 10,000,000
 
+    bool isSystemTrayAvailable;
+
     // مقادیر پیش فرض در ساختار زیر تعریف شده اند تغییرات در این ساختار را در فایل
     // definitions
     // اعمال نمایم

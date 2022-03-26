@@ -2,12 +2,17 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QSystemTrayIcon>
+
 #include "definitions.h"
 
 #include "simplecrypt.h"
 
 #include "qrcodegen.h"
 using namespace qrcodegen;
+
+
+class QCloseEvent;
 
 
 QT_BEGIN_NAMESPACE
@@ -40,14 +45,22 @@ private slots:
     void on_btnSave_clicked();
     void on_btnSettings_clicked();
 
+    void iconActivated(QSystemTrayIcon::ActivationReason reason);
+
+    void on_actQuit_triggered();
+
+    void on_actAboutApp_triggered();
+
 protected:
-    void closeEvent(QCloseEvent *);
+    void closeEvent(QCloseEvent *e) override;
 
 private:
     Ui::MainWindow *ui;
 
     QByteArray ba;
     SimpleCrypt *crypto;
+
+    QSystemTrayIcon *trayIcon;
 
     bool saveAsSVG(const QString &filePath);
     bool saveAsPixmap(const QByteArray &contents, const QString &filePath);

@@ -8,9 +8,11 @@
 #include <QSvgWidget>
 #include <QMessageBox>
 #include <QFileDialog>
+#include <QCloseEvent>
 #include <QColorDialog>
 #include <QSvgRenderer>
 #include <QStandardPaths>
+#include <QSystemTrayIcon>
 
 #include "formsetting.h"
 #include "formchangekey.h"
@@ -26,6 +28,31 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent) , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    //...
+
+    if (appSettings.isSystemTrayAvailable)
+    {
+        trayIcon = new QSystemTrayIcon(this);
+        trayIcon->setContextMenu(ui->mnuTrayIconMenu);
+
+        QIcon icon = QIcon(":/icons/app-icon.png");
+        trayIcon->setIcon(icon);
+        trayIcon->setToolTip(AppInfo.ApplicationName);
+
+        trayIcon->show();
+        //trayIcon->setVisible(AAA)
+        //trayIcon->showMessage("title", "body", icon, 5 * 1000);
+
+
+        connect(trayIcon, &QSystemTrayIcon::activated, this, &MainWindow::iconActivated);
+        //connect(trayIcon, &QSystemTrayIcon::messageClicked, this, &MainWindow::messageClicked);
+    }
+    else {
+        trayIcon = nullptr;
+        qDebug() << "SystemTrayIcon is not supported on this platform";
+    }
+
 
     ba = QByteArray();
     ui->btnSave->setEnabled(false);
@@ -46,6 +73,8 @@ MainWindow::MainWindow(QWidget *parent)
     appSettings.QRCodeFormatType = DefaultSettings.QRCodeFormatType;
 
     appSettings.QRCodeKey = DefaultSettings.QRCodeKey;
+
+    //appSettings.isSystemTrayAvailable
 
     //...
 
@@ -126,11 +155,11 @@ void MainWindow::on_ledPlainText_textChanged(const QString &arg1)
         ui->btnSave->setEnabled(true);
     }
 
-   const QrCode qr = createQrCode(ui->ledEncrypted->text());
+    const QrCode qr = createQrCode(ui->ledEncrypted->text());
 
-   ba = QrCodeToSvgString(qr, appSettings.QRCodeBorder,
-                          appSettings.QRCodeColor).toLocal8Bit();
-   ui->labelQR->load(ba);
+    ba = QrCodeToSvgString(qr, appSettings.QRCodeBorder,
+                           appSettings.QRCodeColor).toLocal8Bit();
+    ui->labelQR->load(ba);
 }
 
 void MainWindow::on_ledEncrypted2_textChanged(const QString &arg1)
@@ -150,58 +179,58 @@ void MainWindow::on_ledEncrypted2_textChanged(const QString &arg1)
 
 void MainWindow::on_btnSave_clicked()
 {
-   if (ba.isEmpty()) {
-       QMessageBox::warning(this, " ",
-                                "چیزی برای ذخیره کردن وجود ندارد!");
-       return;
-   }
+    if (ba.isEmpty()) {
+        QMessageBox::warning(this, " ",
+                             "چیزی برای ذخیره کردن وجود ندارد!");
+        return;
+    }
 
-   //...
+    //...
 
-   // ممکن است کاربر آخرین مسیری که ذخیره کره است را حذف کرده باشد
-   QDir dir(appSettings.QRCodeSavePath);
-   if (!dir.exists())
-       appSettings.QRCodeSavePath = DefaultSettings.QRCodeSavePath; // Desktop path
-
-
-   QString defaultFilter;
-   if (appSettings.QRCodeFormatType == "png")
-       defaultFilter = "عکس(*.png *.jpg)";
-   else if (appSettings.QRCodeFormatType == "svg")
-       defaultFilter = "svg پرونده(*.svg)";
-   else
-       defaultFilter = QString(); // ! دکوری هست
+    // ممکن است کاربر آخرین مسیری که ذخیره کره است را حذف کرده باشد
+    QDir dir(appSettings.QRCodeSavePath);
+    if (!dir.exists())
+        appSettings.QRCodeSavePath = DefaultSettings.QRCodeSavePath; // Desktop path
 
 
-   QString filters("svg پرونده(*.svg);;عکس(*.png *.jpg)");
-
-   QString strTime = QTime::currentTime().toString();
-   strTime.replace(":", "-");
-
-   QString strDate = QDate::currentDate().toString();
-
-   QString filePath = QFileDialog::getSaveFileName(
-               this, "ذخیره کردن" , appSettings.QRCodeSavePath + "/" +
-               strTime + " _ " + strDate , filters, &defaultFilter);
-
-   if (filePath.isEmpty()) //کاربر لغو کرده است
-       return ;
-
-   if (filePath.endsWith(".svg", Qt::CaseInsensitive))
-   {
-       saveAsSVG(filePath);
-       appSettings.QRCodeFormatType = "svg";
-   } else {
-       saveAsPixmap(ba, filePath);
-       appSettings.QRCodeFormatType = "png";
-   }
+    QString defaultFilter;
+    if (appSettings.QRCodeFormatType == "png")
+        defaultFilter = "عکس(*.png *.jpg)";
+    else if (appSettings.QRCodeFormatType == "svg")
+        defaultFilter = "svg پرونده(*.svg)";
+    else
+        defaultFilter = QString(); // ! دکوری هست
 
 
-   QFileInfo fileInfo( filePath );
-   appSettings.QRCodeSavePath = fileInfo.dir().path();
+    QString filters("svg پرونده(*.svg);;عکس(*.png *.jpg)");
 
-   //...
-   //qDebug() << ba.data();
+    QString strTime = QTime::currentTime().toString();
+    strTime.replace(":", "-");
+
+    QString strDate = QDate::currentDate().toString();
+
+    QString filePath = QFileDialog::getSaveFileName(
+                this, "ذخیره کردن" , appSettings.QRCodeSavePath + "/" +
+                strTime + " _ " + strDate , filters, &defaultFilter);
+
+    if (filePath.isEmpty()) //کاربر لغو کرده است
+        return ;
+
+    if (filePath.endsWith(".svg", Qt::CaseInsensitive))
+    {
+        saveAsSVG(filePath);
+        appSettings.QRCodeFormatType = "svg";
+    } else {
+        saveAsPixmap(ba, filePath);
+        appSettings.QRCodeFormatType = "png";
+    }
+
+
+    QFileInfo fileInfo( filePath );
+    appSettings.QRCodeSavePath = fileInfo.dir().path();
+
+    //...
+    //qDebug() << ba.data();
 }
 
 bool MainWindow::saveAsSVG(const QString &filePath)
@@ -310,8 +339,26 @@ void MainWindow::on_btnSettings_clicked()
     dialog->show();
 }
 
-void MainWindow::closeEvent(QCloseEvent *)
+void MainWindow::closeEvent(QCloseEvent *e)
 {
+    //TODO: بعدا در تنظیمات قابلیت نمایش یا عدم نمایش را به کاربر دهم
+    bool isUserWantSysTray = true;
+
+    if (appSettings.isSystemTrayAvailable && isUserWantSysTray)
+    {
+        static int numToExec = 0;
+        numToExec++;
+
+        if (numToExec <= 1)
+            trayIcon->showMessage("اجرای برنامه",
+                                  "برنامه همچنان در حال اجرا است. برای پایان دادن به برنامه، گزینه 'خروج' را از منوی آیکون کنار ساعت سیستم انتخاب نمایید.",
+                                  this->windowIcon() ,
+                                  8 * 1000);
+
+        hide();
+        e->ignore();
+    }
+
     writeSettings();
 }
 
@@ -340,13 +387,13 @@ void MainWindow::readSettings()
     appSettings.QRCodeColor = color;
 
     appSettings.QRCodeSavePath = settings.value("QrCodeSavePath",
-                                    DefaultSettings.QRCodeSavePath).toString() ;
+                                                DefaultSettings.QRCodeSavePath).toString() ;
 
     appSettings.QRCodeFormatType = settings.value("QrCodeFormatType",
-                                    DefaultSettings.QRCodeFormatType).toString() ;
+                                                  DefaultSettings.QRCodeFormatType).toString() ;
 
     appSettings.QRCodeKey = settings.value("QrCodeKey",
-                                    DefaultSettings.QRCodeKey).toUInt() ;
+                                           DefaultSettings.QRCodeKey).toUInt() ;
 
     //...
     settings.endGroup();
@@ -366,4 +413,34 @@ void MainWindow::writeSettings()
     settings.setValue("QrCodeKey", appSettings.QRCodeKey);
     //...
     settings.endGroup();
+}
+
+void MainWindow::iconActivated(QSystemTrayIcon::ActivationReason reason)
+{
+    switch (reason) {
+    //case QSystemTrayIcon::Trigger:
+    case QSystemTrayIcon::DoubleClick:
+        this->setVisible( !this->isVisible() );
+        break;
+    case QSystemTrayIcon::MiddleClick:
+        ; //Nothing!
+        break;
+    default:
+        ;
+    }
+}
+
+void MainWindow::on_actQuit_triggered()
+{
+    writeSettings();  //az close() estefadeh nashavad!
+
+    trayIcon->hide();
+
+    qApp->quit();
+    exit(0);
+}
+
+void MainWindow::on_actAboutApp_triggered()
+{
+    //TODO:
 }

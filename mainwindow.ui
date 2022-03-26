@@ -299,6 +299,35 @@ QLineEdit {
     </item>
    </layout>
   </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>675</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="mnuTrayIconMenu">
+    <property name="title">
+     <string>منو</string>
+    </property>
+    <addaction name="actQuit"/>
+    <addaction name="separator"/>
+    <addaction name="actAboutApp"/>
+   </widget>
+   <addaction name="mnuTrayIconMenu"/>
+  </widget>
+  <action name="actQuit">
+   <property name="text">
+    <string>خروج</string>
+   </property>
+  </action>
+  <action name="actAboutApp">
+   <property name="text">
+    <string>درباره برنامه</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>
