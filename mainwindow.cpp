@@ -29,6 +29,8 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+    ui->menuBar->hide();
+
     //...
 
     if (appSettings.isSystemTrayAvailable)
