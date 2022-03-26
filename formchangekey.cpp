@@ -9,6 +9,8 @@ FormChangeKey::FormChangeKey(QWidget *parent) :
 {
     ui->setupUi(this);
     setKeyValue(appSettings.QRCodeKey);
+
+    ui->spbKey->selectAll();
 }
 
 FormChangeKey::~FormChangeKey()
