@@ -1,6 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <QTabWidget>
 #include <QMainWindow>
 #include <QSystemTrayIcon>
 
@@ -48,8 +49,11 @@ private slots:
     void iconActivated(QSystemTrayIcon::ActivationReason reason);
 
     void on_actQuit_triggered();
-
     void on_actAboutApp_triggered();
+
+    void on_tabWidgetEncryption_currentChanged(int index);
+    void animateTabWidgetPages(Direction dir = Direction::LeftToRight);
+
 
 protected:
     void closeEvent(QCloseEvent *e) override;

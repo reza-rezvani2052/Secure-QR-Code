@@ -66,5 +66,14 @@ extern AppSettings appSettings;
 
 //=================================================================================
 
+enum Direction {
+    TopToBottom,
+    BottomToTop,
+    LeftToRight,
+    RightToLeft
+};
+
+//=================================================================================
+
 
 #endif // DEFINITIONS_H

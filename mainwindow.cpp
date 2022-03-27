@@ -13,6 +13,7 @@
 #include <QSvgRenderer>
 #include <QStandardPaths>
 #include <QSystemTrayIcon>
+#include <QPropertyAnimation>
 
 #include "formsetting.h"
 #include "formchangekey.h"
@@ -446,3 +447,48 @@ void MainWindow::on_actAboutApp_triggered()
 {
     //TODO:
 }
+
+void MainWindow::on_tabWidgetEncryption_currentChanged(int index)
+{
+    Q_UNUSED(index)
+
+    animateTabWidgetPages();
+}
+
+void MainWindow::animateTabWidgetPages(Direction dir)
+{
+    QWidget *page = ui->tabWidgetEncryption->currentWidget();
+
+    const QPoint posEnd = page->pos();
+    QPoint posStart = posEnd;
+
+    switch (dir) {
+    case Direction::TopToBottom :
+        posStart.setX(0);
+        posStart.setY(35);
+        break;
+    case Direction::BottomToTop :
+        posStart.setX(0);
+        posStart.setY(-35);
+        break;
+    case Direction::RightToLeft :
+        posStart.setX(50);
+        posStart.setY(0);
+        break;
+    case Direction::LeftToRight :
+        posStart.setX(-50);
+        posStart.setY(0);
+        break;
+    }
+
+
+    QPropertyAnimation *animation = new QPropertyAnimation(page, "pos");
+
+    animation->setDuration(100);
+    animation->setStartValue(posStart);
+    animation->setEndValue(posEnd);
+
+    animation->setEasingCurve(QEasingCurve::Linear /*OutElastic*/);
+    animation->start(QAbstractAnimation::DeleteWhenStopped);
+}
+
