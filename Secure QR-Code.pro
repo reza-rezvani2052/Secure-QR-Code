@@ -49,15 +49,15 @@ DESTDIR = $$PWD/bin
 
 
 # Default rules for deployment.
-#qnx: target.path = /tmp/$${TARGET}/bin
-#else: unix:!android: target.path = /opt/$${TARGET}/bin
-#!isEmpty(target.path): INSTALLS += target
+qnx: target.path = /tmp/$${TARGET}/bin
+else: unix:!android: target.path = /opt/$${TARGET}/bin
+!isEmpty(target.path): INSTALLS += target
 
 RESOURCES += \
     rc/rc.qrc
 
 win32{
-#    RC_FILE = rc/rc.rc   #TODO: *
+    RC_FILE = rc/win-rc.rc
 #   message( "hmmmmmm" )
 #   message( PWD = $$PWD )
 }unix{
