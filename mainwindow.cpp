@@ -64,7 +64,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     //...
 
-    //TODO:  agar dokme SAVE heire faal bud, ui->mnuSave->actions() gheire faal shavad.
+    //TODO:  agar dokme SAVE gheire faal bud, ui->mnuSave->actions() gheire faal shavad.
 
     //...
 
