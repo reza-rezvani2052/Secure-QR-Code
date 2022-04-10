@@ -326,7 +326,7 @@ QLineEdit {
      <x>0</x>
      <y>0</y>
      <width>675</width>
-     <height>31</height>
+     <height>27</height>
     </rect>
    </property>
    <widget class="QMenu" name="mnuTrayIconMenu">
@@ -337,7 +337,14 @@ QLineEdit {
     <addaction name="separator"/>
     <addaction name="actAboutApp"/>
    </widget>
+   <widget class="QMenu" name="mnuSave">
+    <property name="title">
+     <string>Save</string>
+    </property>
+    <addaction name="actSave"/>
+   </widget>
    <addaction name="mnuTrayIconMenu"/>
+   <addaction name="mnuSave"/>
   </widget>
   <action name="actQuit">
    <property name="text">
@@ -347,6 +354,15 @@ QLineEdit {
   <action name="actAboutApp">
    <property name="text">
     <string>درباره برنامه</string>
+   </property>
+  </action>
+  <action name="actSave">
+   <property name="icon">
+    <iconset resource="rc/rc.qrc">
+     <normaloff>:/icons/save.png</normaloff>:/icons/save.png</iconset>
+   </property>
+   <property name="text">
+    <string>ذخیره</string>
    </property>
   </action>
  </widget>

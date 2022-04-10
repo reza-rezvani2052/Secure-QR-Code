@@ -44,6 +44,7 @@ private slots:
     void on_ledEncrypted2_textChanged(const QString &arg1);
 
     void on_btnSave_clicked();
+    void on_actSave_triggered();
     void on_btnSettings_clicked();
 
     void iconActivated(QSystemTrayIcon::ActivationReason reason);

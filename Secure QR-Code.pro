@@ -56,8 +56,10 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 RESOURCES += \
     rc/rc.qrc
 
+
 win32{
-    RC_FILE = rc/win-rc.rc
+#TODO: *** badn in ra be git ezafe konam, zamane compile ruye systeme digar error dad
+    #RC_FILE = rc/win-rc.rc *****
 #   message( "hmmmmmm" )
 #   message( PWD = $$PWD )
 }unix{

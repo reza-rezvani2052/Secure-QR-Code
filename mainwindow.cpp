@@ -117,6 +117,11 @@ MainWindow::MainWindow(QWidget *parent)
 
     //...
 
+    ui->labelQR->setContextMenuPolicy(Qt::ContextMenuPolicy::ActionsContextMenu);
+    ui->labelQR->addActions( ui->mnuSave->actions() );
+
+    //...
+
 }
 
 MainWindow::~MainWindow()
@@ -179,6 +184,11 @@ void MainWindow::on_ledEncrypted2_textChanged(const QString &arg1)
 }
 
 //...
+
+void MainWindow::on_actSave_triggered()
+{
+    on_btnSave_clicked();
+}
 
 void MainWindow::on_btnSave_clicked()
 {
@@ -491,4 +501,3 @@ void MainWindow::animateTabWidgetPages(Direction dir)
     animation->setEasingCurve(QEasingCurve::Linear /*OutElastic*/);
     animation->start(QAbstractAnimation::DeleteWhenStopped);
 }
-
