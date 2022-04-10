@@ -15,6 +15,7 @@
 #include <QSystemTrayIcon>
 #include <QPropertyAnimation>
 
+#include "formabout.h"
 #include "formsetting.h"
 #include "formchangekey.h"
 
@@ -59,6 +60,10 @@ MainWindow::MainWindow(QWidget *parent)
 
     ba = QByteArray();
     ui->btnSave->setEnabled(false);
+
+    //...
+
+    //TODO:  agar dokme SAVE heire faal bud, ui->mnuSave->actions() gheire faal shavad.
 
     //...
 
@@ -455,7 +460,15 @@ void MainWindow::on_actQuit_triggered()
 
 void MainWindow::on_actAboutApp_triggered()
 {
-    //TODO:
+    ui->actAboutApp->setEnabled(false);
+
+    if (!this->isVisible())
+        this->setVisible(true);
+
+    FormAbout form(this);
+    form.exec();
+
+    ui->actAboutApp->setEnabled(true);
 }
 
 void MainWindow::on_tabWidgetEncryption_currentChanged(int index)
