@@ -60,6 +60,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     ba = QByteArray();
     ui->btnSave->setEnabled(false);
+    ui->actSave->setEnabled(false);
 
     //...
 
@@ -162,10 +163,12 @@ void MainWindow::on_ledPlainText_textChanged(const QString &arg1)
 
         ba = QByteArray();
         ui->btnSave->setEnabled(false);
+        ui->actSave->setEnabled(false);
         return ;
     } else {
         ui->ledEncrypted->setText(crypto->encryptToString(arg1));
         ui->btnSave->setEnabled(true);
+        ui->actSave->setEnabled(true);
     }
 
     const QrCode qr = createQrCode(ui->ledEncrypted->text());
