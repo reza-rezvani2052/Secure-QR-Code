@@ -61,8 +61,7 @@ RESOURCES += \
 
 
 win32{
-#TODO: *** badn in ra be git ezafe konam, zamane compile ruye systeme digar error dad
-    #RC_FILE = rc/win-rc.rc *****
+   RC_FILE = rc/win-rc.rc *****
 #   message( "hmmmmmm" )
 #   message( PWD = $$PWD )
 }unix{
