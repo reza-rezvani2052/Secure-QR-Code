@@ -54,6 +54,8 @@ struct AppSettings {
     QString QRCodeSavePath  ;  // = Desktop
 
     uint QRCodeKey      ;      // = 10,000,000
+    const uint QRCodeKeyMIN = 10000001;
+    const uint QRCodeKeyMAX = 999999999;
 
     bool isSystemTrayAvailable;
 

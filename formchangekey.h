@@ -16,7 +16,7 @@ public:
     ~FormChangeKey();
 
     int getKeyValue();
-    void setKeyValue(const int value);
+    void setKeyValue(const uint value);
 
 private slots:
     void on_btnOk_clicked();

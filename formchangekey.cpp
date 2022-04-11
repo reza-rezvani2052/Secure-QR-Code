@@ -8,6 +8,9 @@ FormChangeKey::FormChangeKey(QWidget *parent) :
     ui(new Ui::FormChangeKey)
 {
     ui->setupUi(this);
+
+    ui->spbKey->setMinimum(appSettings.QRCodeKeyMIN);
+    ui->spbKey->setMaximum(appSettings.QRCodeKeyMAX);
     setKeyValue(appSettings.QRCodeKey);
 
     ui->spbKey->selectAll();
@@ -23,14 +26,29 @@ int FormChangeKey::getKeyValue()
     return ui->spbKey->value();
 }
 
-void FormChangeKey::setKeyValue(const int value)
+void FormChangeKey::setKeyValue(const uint value)
 {
-    //TODO: بعدا صحت و محدودیت ورودی ها را تست کنم
-    ui->spbKey->setValue(value);
+    if (value >= appSettings.QRCodeKeyMIN && value <= appSettings.QRCodeKeyMAX)
+        ui->spbKey->setValue(value);
+    else
+        ui->spbKey->setValue(appSettings.QRCodeKeyMIN);
 }
 
 void FormChangeKey::on_btnOk_clicked()
 {
+//    int value =  ui->spbKey->value();
+//    bool isAcceptableValue =
+//            value >= appSettings.QRCodeKeyMIN && value <= appSettings.QRCodeKeyMAX;
+
+//    if (ui->spbKey->hasAcceptableInput() && isAcceptableValue)
+//    {
+//        accept();
+//    }
+//    else
+//    {
+//        qApp->beep();
+//    }
+
     accept();
 }
 
