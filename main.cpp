@@ -43,5 +43,5 @@ int main(int argc, char *argv[])
     MainWindow w;
     w.show();
 
-    return a.exec();
+    return a.exec();  //Hello&Godbye!!!
 }
