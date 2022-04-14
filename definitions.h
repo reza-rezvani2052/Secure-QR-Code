@@ -54,15 +54,23 @@ struct AppSettings {
     QString QRCodeSavePath  ;  // = Desktop
 
     uint QRCodeKey      ;      // = 10,000,000
+
+    // مقادیر پیش فرض در ساختار زیر تعریف شده اند
+    // AppDefaultSettings DefaultSettings;
+    //
+    //  تغییرات در این ساختار(به استثناء مواردی که در زیر خط چین هستند) باید در فایل
+    // definitions
+    // اعمال شوند
+
+    //-------------------------------------------------
+
     const uint QRCodeKeyMIN = 10000001;
     const uint QRCodeKeyMAX = 999999999;
 
-    bool isSystemTrayAvailable;
+    // تعداد بار اجرای برنامه
+    int numOfAppExec;
 
-    // مقادیر پیش فرض در ساختار زیر تعریف شده اند تغییرات در این ساختار را در فایل
-    // definitions
-    // اعمال نمایم
-    //AppDefaultSettings DefaultSettings;
+    bool isSystemTrayAvailable;
 };
 extern AppSettings appSettings;
 

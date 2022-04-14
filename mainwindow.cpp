@@ -64,10 +64,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     //...
 
-    //TODO:  agar dokme SAVE gheire faal bud, ui->mnuSave->actions() gheire faal shavad.
-
-    //...
-
     ui->tabWidgetEncryption->setCurrentWidget(ui->tabEncrypt);
     ui->ledEncrypted->setFocus();
 
@@ -367,14 +363,17 @@ void MainWindow::closeEvent(QCloseEvent *e)
 
     if (appSettings.isSystemTrayAvailable && isUserWantSysTray)
     {
-        static int numToExec = 0;
-        numToExec++;
+        if (appSettings.numOfAppExec <= 1)
+        {
+            // در اجرای اول با هر بار بستن پنجره پیام نمایش داده میشد
+            // کد زیر جلوی نمایش دادن چندین باره در اجرای اول را میگیرد
+            appSettings.numOfAppExec++;
 
-        if (numToExec <= 1)
             trayIcon->showMessage("اجرای برنامه",
                                   "برنامه همچنان در حال اجرا است. برای پایان دادن به برنامه، گزینه 'خروج' را از منوی آیکون کنار ساعت سیستم انتخاب نمایید.",
                                   this->windowIcon() ,
                                   8 * 1000);
+        }
 
         hide();
         e->ignore();
@@ -416,6 +415,9 @@ void MainWindow::readSettings()
     appSettings.QRCodeKey = settings.value("QrCodeKey",
                                            DefaultSettings.QRCodeKey).toUInt() ;
 
+    appSettings.numOfAppExec = settings.value("NumOfAppExec", 0).toInt() ;
+    appSettings.numOfAppExec++;
+
     //...
     settings.endGroup();
 }
@@ -432,6 +434,7 @@ void MainWindow::writeSettings()
     settings.setValue("QrCodeSavePath", appSettings.QRCodeSavePath);
     settings.setValue("QrCodeFormatType", appSettings.QRCodeFormatType);
     settings.setValue("QrCodeKey", appSettings.QRCodeKey);
+    settings.setValue("NumOfAppExec", appSettings.numOfAppExec);
     //...
     settings.endGroup();
 }
