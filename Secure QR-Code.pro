@@ -69,3 +69,6 @@ win32{
 }macx{
     error("RC FILE is not set")
 }
+
+DISTFILES += \
+    TODO.txt
