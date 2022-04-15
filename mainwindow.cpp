@@ -471,6 +471,10 @@ void MainWindow::on_actAboutApp_triggered()
     if (!this->isVisible())
         this->setVisible(true);
 
+    //BUGFIX: اگر ماکسیمایز باشه و بعد مینیمایز شده باشه........
+    if (this->isMinimized())
+        showNormal();
+
     FormAbout form(this);
     form.exec();
 
