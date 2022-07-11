@@ -48,6 +48,9 @@ void FormSetting::loadAppSettings()
        ui->btnQRCodeColorChoice->setStyleSheet(qss);
     }
     //...
+    ui->chkShowAtSystemtray->setChecked(appSettings.ShowAtSystemTrayOnExit);
+    ui->chkRunAtWindowsStartup->setChecked(appSettings.RunAtWindowsStartup);
+
 }
 
 void FormSetting::on_btnQRCodeColorChoice_clicked()
@@ -111,4 +114,9 @@ void FormSetting::on_btnChangeKey_clicked()
         mainWindow->writeSettings(); // save appSettings.QRCodeKey
         mainWindow->updateQrCode();
     }
+}
+
+void FormSetting::on_chkShowAtSystemtray_toggled(bool checked)
+{
+    //TODO: ***********
 }

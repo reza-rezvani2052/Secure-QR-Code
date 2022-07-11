@@ -54,7 +54,7 @@ MainWindow::MainWindow(QWidget *parent)
     }
     else {
         trayIcon = nullptr;
-        qDebug() << "SystemTrayIcon is not supported on this platform";
+        //qDebug() << "SystemTrayIcon is not supported on this platform";
     }
 
 
@@ -79,7 +79,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     appSettings.QRCodeKey = DefaultSettings.QRCodeKey;
 
-    //appSettings.isSystemTrayAvailable
+    appSettings.RunAtWindowsStartup = DefaultSettings.RunAtWindowsStartup;
+    appSettings.ShowAtSystemTrayOnExit = DefaultSettings.ShowAtSystemTrayOnExit;
 
     //...
 
@@ -197,6 +198,7 @@ void MainWindow::on_actSave_triggered()
 void MainWindow::on_btnSave_clicked()
 {
     if (ba.isEmpty()) {
+        //TODO:  بعدا با پاپ آپ نمایش بدم
         QMessageBox::warning(this, " ",
                              "چیزی برای ذخیره کردن وجود ندارد!");
         return;
@@ -358,10 +360,7 @@ void MainWindow::on_btnSettings_clicked()
 
 void MainWindow::closeEvent(QCloseEvent *e)
 {
-    //TODO: بعدا در تنظیمات قابلیت نمایش یا عدم نمایش را به کاربر دهم
-    bool isUserWantSysTray = true;
-
-    if (appSettings.isSystemTrayAvailable && isUserWantSysTray)
+    if (appSettings.isSystemTrayAvailable && appSettings.ShowAtSystemTrayOnExit)
     {
         if (appSettings.numOfAppExec <= 1)
         {
@@ -418,6 +417,16 @@ void MainWindow::readSettings()
     appSettings.numOfAppExec = settings.value("NumOfAppExec", 0).toInt() ;
     appSettings.numOfAppExec++;
 
+    appSettings.RunAtWindowsStartup =
+            settings.value("RunAtWindowsStartup", DefaultSettings.RunAtWindowsStartup).toBool();
+    //TODO:  ****
+
+
+    appSettings.ShowAtSystemTrayOnExit =
+            settings.value("ShowAtSystemTrayOnExit", DefaultSettings.ShowAtSystemTrayOnExit).toBool();
+    //TODO:  ****
+
+
     //...
     settings.endGroup();
 }
@@ -435,6 +444,8 @@ void MainWindow::writeSettings()
     settings.setValue("QrCodeFormatType", appSettings.QRCodeFormatType);
     settings.setValue("QrCodeKey", appSettings.QRCodeKey);
     settings.setValue("NumOfAppExec", appSettings.numOfAppExec);
+    settings.setValue("RunAtWindowsStartup", appSettings.RunAtWindowsStartup);
+    settings.setValue("ShowAtSystemTrayOnExit", appSettings.ShowAtSystemTrayOnExit);
     //...
     settings.endGroup();
 }
@@ -458,7 +469,8 @@ void MainWindow::on_actQuit_triggered()
 {
     writeSettings();  //az close() estefadeh nashavad!
 
-    trayIcon->hide();
+    if (appSettings.isSystemTrayAvailable && appSettings.ShowAtSystemTrayOnExit)
+        trayIcon->hide();
 
     qApp->quit();
     exit(0);
@@ -471,7 +483,7 @@ void MainWindow::on_actAboutApp_triggered()
     if (!this->isVisible())
         this->setVisible(true);
 
-    //BUGFIX: اگر ماکسیمایز باشه و بعد مینیمایز شده باشه........
+    //FIXME: اگر ماکسیمایز باشه و بعد مینیمایز شده باشه........
     if (this->isMinimized())
         showNormal();
 

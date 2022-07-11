@@ -26,6 +26,8 @@ private slots:
     void on_spbBorderSize_editingFinished();
     void on_spbQRCodeSize_editingFinished();
 
+    void on_chkShowAtSystemtray_toggled(bool checked);
+
 private:
     Ui::FormSetting *ui;
     MainWindow *mainWindow;

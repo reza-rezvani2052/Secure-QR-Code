@@ -42,6 +42,9 @@ struct AppDefaultSettings {
     const QString QRCodeSavePath = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation);
 
     const uint QRCodeKey       = 10000000;      // = 10,000,000
+
+    bool RunAtWindowsStartup    = true;
+    bool ShowAtSystemTrayOnExit = true;
 };
 extern AppDefaultSettings DefaultSettings;
 
@@ -54,6 +57,9 @@ struct AppSettings {
     QString QRCodeSavePath  ;  // = Desktop
 
     uint QRCodeKey      ;      // = 10,000,000
+
+    bool RunAtWindowsStartup;    // = true
+    bool ShowAtSystemTrayOnExit; // = true
 
     // مقادیر پیش فرض در ساختار زیر تعریف شده اند
     // AppDefaultSettings DefaultSettings;
